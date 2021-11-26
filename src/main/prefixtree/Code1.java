@@ -168,4 +168,67 @@ public class Code1 {
             return node2.pass;
         }
     }
+
+    public static class Right{
+        private HashMap<String,Integer> box;
+        public Right(){
+            box=new HashMap<>();
+        }
+
+        public void insert(String word){
+            if (!box.containsKey(word)){
+                box.put(word,1);
+            }else {
+                box.put(word,box.get(word)+1);
+            }
+        }
+
+        public void delete(String word){
+            if (box.containsKey(word)){
+                if (box.get(word)==1){
+                    box.remove(word);
+                }else {
+                    box.put(word,box.get(word)-1);
+                }
+            }
+        }
+
+        public int search(String word){
+            if (!box.containsKey(word)){
+                return 0;
+            }else {
+                return box.get(word);
+            }
+        }
+
+        public int prefixNum(String pre){
+            int count=0;
+            for (String cur:box.keySet()){
+                if (cur.startsWith(pre)){
+                    count++;
+                }
+            }
+            return count;
+        }
+    }
+    public static String generateRandomString(int strLen){
+        char[] chars = new char[(int) (Math.random() * strLen) + 1];
+        for (int i = 0; i < chars.length; i++) {
+            int value = (int) (Math.random() * 6);
+            chars[i]= (char) (97+value);
+        }
+        return String.valueOf(chars);
+    }
+
+    public static String[] generateRandomStringArray(int arrLen,int strLen){
+        String[] ans = new String[(int) (Math.random() * arrLen) + 1];
+        for (int i = 0; i < ans.length; i++) {
+            ans[i]=generateRandomString(strLen);
+        }
+        return ans;
+    }
+
+    public static void main(String[] args) {
+        int arrLen=100;
+    }
 }
