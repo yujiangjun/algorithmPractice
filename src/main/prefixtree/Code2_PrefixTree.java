@@ -2,7 +2,7 @@ package prefixtree;
 
 import java.util.HashMap;
 
-public class Code1 {
+public class Code2_PrefixTree {
 
     public static class Node1{
         public int pass;
@@ -151,6 +151,24 @@ public class Code1 {
             return node2.end;
         }
 
+        public void delete(String word) {
+            if (search(word) != 0) {
+                char[] chs = word.toCharArray();
+                Node2 node = root;
+                node.pass--;
+                int index = 0;
+                for (int i = 0; i < chs.length; i++) {
+                    index = (int) chs[i];
+                    if (--node.next.get(index).pass == 0) {
+                        node.next.remove(index);
+                        return;
+                    }
+                    node = node.next.get(index);
+                }
+                node.end--;
+            }
+        }
+
         public int prefixNum(String word){
             if (word==null){
                 return 0;
@@ -205,7 +223,7 @@ public class Code1 {
             int count=0;
             for (String cur:box.keySet()){
                 if (cur.startsWith(pre)){
-                    count++;
+                    count+=box.get(cur);
                 }
             }
             return count;
@@ -229,6 +247,41 @@ public class Code1 {
     }
 
     public static void main(String[] args) {
-        int arrLen=100;
+        int arrLen = 100;
+        int strLen = 20;
+        int testTimes = 100000;
+        for (int i = 0; i < testTimes; i++) {
+            String[] arr = generateRandomStringArray(arrLen, strLen);
+            Tree1 trie1 = new Tree1();
+            Tree2 trie2 = new Tree2();
+            Right right = new Right();
+            for (int j = 0; j < arr.length; j++) {
+                double decide = Math.random();
+                if (decide < 0.25) {
+                    trie1.insert(arr[j]);
+                    trie2.insert(arr[j]);
+                    right.insert(arr[j]);
+                } else if (decide < 0.5) {
+                    trie1.delete(arr[j]);
+                    trie2.delete(arr[j]);
+                    right.delete(arr[j]);
+                } else if (decide < 0.75) {
+                    int ans1 = trie1.search(arr[j]);
+                    int ans2 = trie2.search(arr[j]);
+                    int ans3 = right.search(arr[j]);
+                    if (ans1 != ans2 || ans2 != ans3) {
+                        System.out.println("Oops!");
+                    }
+                } else {
+                    int ans1 = trie1.prefixNum(arr[j]);
+                    int ans2 = trie2.prefixNum(arr[j]);
+                    int ans3 = right.prefixNum(arr[j]);
+                    if (ans1 != ans2 || ans2 != ans3) {
+                        System.out.println("Oops!");
+                    }
+                }
+            }
+        }
+        System.out.println("finish!");
     }
 }
