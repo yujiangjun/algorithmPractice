@@ -25,7 +25,7 @@ public class Code2_isBST {
                 return false;
             }
         }
-        return false;
+        return true;
     }
 
     public static void in(Node head,ArrayList<Node> arr){
