@@ -8,3 +8,6 @@
 /dataSources.local.xml
 codeStyles
 *.xml
+/vcs.xml
+/modules.xml
+/codeStyles/
