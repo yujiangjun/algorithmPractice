@@ -99,4 +99,69 @@ public class Code2_FindKthMinNumber {
         }
         return Math.min(num1[s1], num2[s2]);
     }
+
+    public double findMedianSortedArrays2(int[] nums1, int[] nums2) {
+        int size = nums1.length + nums2.length;
+        boolean even = (size & 1) == 0;
+        if (nums1.length != 0 && nums2.length != 0) {
+            if (even) {
+                return (double) (findKthNum2(nums1, nums2, size / 2) + findKthNum2(nums1, nums2, size / 2 + 1)) / 2d;
+            } else {
+                return findKthNum2(nums1, nums2, size / 2 + 1);
+            }
+        } else if (nums1.length != 0) {
+            if (even) {
+                return (double) (nums1[size / 2] + nums1[(size - 1) / 2]) / 2d;
+            } else {
+                return nums1[size / 2];
+            }
+        } else if (nums2.length != 0) {
+            if (even) {
+                return (double) (nums2[size / 2] + nums2[(size - 1) / 2]) / 2d;
+            } else {
+                return nums2[size / 2];
+            }
+        } else {
+            return 0;
+        }
+    }
+
+    public static int findKthNum2(int[] nums1,int[] nums2,int kth){
+        int p1=0,p2=0;
+        int count=0;
+        int[] newNums = new int[nums1.length+nums2.length];
+        while (p1<nums1.length&&p2<nums2.length){
+            if (nums1[p1]<nums2[p2]){
+                p1++;
+                newNums[count++]=nums1[p1-1];
+            }else {
+                p2++;
+                newNums[count++]=nums2[p2-1];
+            }
+            if (count==kth){
+                return newNums[count-1];
+            }
+        }
+        while (p1<nums1.length){
+            p1++;
+            newNums[count++]=nums1[p1-1];
+            if (kth==count){
+                return newNums[count-1];
+            }
+        }
+        while (p2<nums2.length){
+            p2++;
+            newNums[count++]=nums2[p2-1];
+            if (kth==count){
+                return newNums[count-1];
+            }
+        }
+        return 0;
+    }
+
+    public static void main(String[] args) {
+        int[] nums1={1,3};
+        int[] nums2={2};
+        System.out.println(findKthNum2(nums1,nums2,2));
+    }
 }
