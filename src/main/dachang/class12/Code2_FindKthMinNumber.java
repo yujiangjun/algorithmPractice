@@ -1,7 +1,5 @@
 package dachang.class12;
 
-import java.util.Map;
-
 public class Code2_FindKthMinNumber {
 
     public double findMedianSortedArrays(int[] nums1, int[] nums2) {
