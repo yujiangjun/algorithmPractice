@@ -62,12 +62,24 @@ public class Problem_0127_WordLadder {
         if (!dict.contains(endWord)) {
             return 0;
         }
+        /*
+        从beginWord开始，开始发散
+         */
         HashSet<String> startSet = new HashSet<>();
+        /*
+        从endWord开始发散
+         */
         HashSet<String> endSet = new HashSet<>();
         startSet.add(beginWord);
         endSet.add(endWord);
         HashSet<String> visited = new HashSet<>();
         for (int len = 2; !startSet.isEmpty(); len++) {
+            /*
+            每一次循环，得到nexts,比较nexts和endSet
+            谁少从谁开始向另一个方想开始找它的的next
+            如果某一个next在另一方中，立即return.
+            说明找个一个最短路径
+             */
             HashSet<String> nexts = new HashSet<>();
             for (String cur : startSet) {
                 char[] str = cur.toCharArray();
