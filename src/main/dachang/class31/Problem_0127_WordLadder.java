@@ -86,7 +86,7 @@ public class Problem_0127_WordLadder {
                             nexts.add(next);
                             visited.add(next);
                         }
-                        str[j]=t;
+                        str[j] = t;
                     }
                 }
             }
@@ -96,10 +96,55 @@ public class Problem_0127_WordLadder {
         return 0;
     }
 
+
+    public static int ladderLength3(String beginWord, String endWord, List<String> wordList) {
+        HashSet<String> dict = new HashSet<>(wordList);
+        if (!dict.contains(endWord)) {
+            return 0;
+        }
+        HashSet<String> startSet = new HashSet<>();
+        HashSet<String> endSet = new HashSet<>();
+        HashSet<String> visitSet = new HashSet<>();
+
+        startSet.add(beginWord);
+        endSet.add(endWord);
+        visitSet.add(beginWord);
+        visitSet.add(endWord);
+
+        for (int len = 2; !startSet.isEmpty(); len++) {
+            HashSet<String> nextMap = new HashSet<>();
+            for (String cur : startSet) {
+                char[] str = cur.toCharArray();
+                for (int i = 0; i < str.length; i++) {
+                    for (char j = 'a'; j <= 'z'; j++) {
+                        if (j == str[i]) {
+                            continue;
+                        }
+                        char t = str[i];
+                        str[i] = j;
+                        String next = String.valueOf(str);
+                        if (endSet.contains(next)) {
+                            return len;
+                        }
+                        if (!visitSet.contains(next) && dict.contains(next)) {
+                            nextMap.add(next);
+                            visitSet.add(next);
+                        }
+                        str[i] = t;
+                    }
+                }
+            }
+            startSet = (nextMap.size() < endSet.size()) ? nextMap : endSet;
+            endSet = (startSet == nextMap) ? endSet : nextMap;
+        }
+        return 0;
+    }
+
     public static void main(String[] args) {
-        String begin="hit";
-        String end="cog";
-        String[] words = {"hot","dot","dog","lot","log","cog"};
-        System.out.println(ladderLength2(begin,end,Arrays.asList(words)));
+        String begin = "hit";
+        String end = "cog";
+        String[] words = {"hot", "dot", "dog", "lot", "log", "cog"};
+        System.out.println(ladderLength2(begin, end, Arrays.asList(words)));
+        System.out.println(ladderLength3(begin, end, Arrays.asList(words)));
     }
 }
